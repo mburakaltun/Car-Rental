@@ -1,10 +1,8 @@
 ﻿using Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace DataAccess.Abstract
+
+namespace DataAccess.Concrete.EntityFramework
 {
     public class VehicleContext : DbContext
     {
@@ -13,10 +11,10 @@ namespace DataAccess.Abstract
             optionsBuilder.UseSqlServer(@"Server=(localdb)\MSSQLLocalDB;Database=C:\USERS\MBA\DOCUMENTS\VEHICLEDB.MDF;Trusted_Connection=true;");
         }
 
-        public DbSet<Color> Color { get; set; }
+        public DbSet<Color> Colors { get; set; }
 
-        public DbSet<Brand> Brand { get; set; }
+        public DbSet<Brand> Brands { get; set; }
 
-        public DbSet<Car> Car { get; set; }
+        public DbSet<Car> Cars { get; set; }
     }
 }
