@@ -13,11 +13,20 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
+            CarTest();
+
+
+        }
+
+        private static void CarTest()
+        {
             CarManager carManager = new CarManager(new EfCarDal());
-            
-            foreach (var carDto in carManager.GetCarDetails())
+
+            var result = carManager.GetByBrandId(1);
+
+            foreach (var car in result.Data)
             {
-                Console.WriteLine(carDto.CarId + " " + carDto.ColorName + " " + carDto.BrandName);
+                Console.WriteLine(car.Id + " " + car.ModelYear + " " + car.DailyPrice);
             }
         }
     }
