@@ -67,6 +67,18 @@ namespace Business.Constants
         public static string UserDeleted = "User deleted successfully";
         // User Messages End 
 
+        // Car Image Messages Start
+        public static string CarImageAdded = "Car Image added successfully";
+
+        public static string CarImageUpdated = "Car Image updated successfully";
+
+        public static string CarImageDeleted = "Car Image deleted successfully";
+
+        public static string CarImageCountLimitExceeded = "Car Image Count Limit Exceeded";
+        
+        public static string CarImageDoesNotExist = "Car Image Does Not Exist";
+        // Car Image Messages End
+
 
     }
 }
