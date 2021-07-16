@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Entities.Concrete;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -65,6 +66,13 @@ namespace Business.Constants
         public static string UserUpdated = "User updated successfully";
 
         public static string UserDeleted = "User deleted successfully";
+
+        public static string UserNotFound = "User Not Found";
+
+        public static string UserAlreadyExists = "User Already Exists";
+
+        public static string UserRegistered = "User Registered";
+
         // User Messages End 
 
         // Car Image Messages Start
@@ -78,6 +86,14 @@ namespace Business.Constants
         
         public static string CarImageDoesNotExist = "Car Image Does Not Exist";
         // Car Image Messages End
+
+        // Authorization and Authentication Messages Start
+        public static string AccessTokenCreated = "Access Token Created";
+
+        public static string PasswordError = "Incorrect Password";
+
+        public static string SuccessfulLogin = "Successful Login";
+        // Authorization and Authentication Messages End
 
 
     }
