@@ -42,6 +42,8 @@ namespace Business.Constants
         public static string ColorDeleted = "Color deleted successfully";
 
         public static string ColorCannotBeFound = "Color cannot be found";
+
+        public static string ColorsListed = "Colors are listed";
         // Color Messages End 
 
         // Customer Messages Start 
