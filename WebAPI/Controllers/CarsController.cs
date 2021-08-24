@@ -67,6 +67,17 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpGet("getdetailsbyid")]
+        public IActionResult GetDetailsById(int id)
+        {
+            var result = _carService.GetDetailsById(id);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
         [HttpPost("add")]
         public IActionResult Add(Car car)
         {
@@ -122,8 +133,19 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getdetailsbysearch")]
+        /*[HttpGet("getdetailsbysearch")]
         public IActionResult GetDetailsBySearch(CarSearchDTO carSearchDTO)
+        {
+            var result = _carService.GetCarDetailsBySearch(carSearchDTO);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }*/
+
+        [HttpGet("getdetailsbysearch")]
+        public IActionResult GetDetailsBySearch([FromBody] CarSearchDTO carSearchDTO)
         {
             var result = _carService.GetCarDetailsBySearch(carSearchDTO);
             if (result.Success)

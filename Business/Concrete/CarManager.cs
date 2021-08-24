@@ -103,9 +103,9 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarDetailDTO>>(_carDal.GetCarDetailsByColorId(colorId));
         }
 
-        public IDataResult<List<CarDetailDTO>> GetCarDetailsBySearch(CarSearchDTO productSearchDTO)
+        public IDataResult<List<CarDetailDTO>> GetCarDetailsBySearch(CarSearchDTO carSearchDTO)
         {
-            return new SuccessDataResult<List<CarDetailDTO>>(_carDal.GetCarDetailsBySearch(productSearchDTO));
+            return new SuccessDataResult<List<CarDetailDTO>>(_carDal.GetCarDetailsBySearch(carSearchDTO));
         }
     }
 }

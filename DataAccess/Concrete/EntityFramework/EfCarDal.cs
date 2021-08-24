@@ -23,7 +23,8 @@ namespace DataAccess.Concrete
                                  CarId = c.Id,
                                  BrandName = b.Name,
                                  ColorName = clr.Name,
-                                 DailyPrice = c.DailyPrice                              
+                                 DailyPrice = c.DailyPrice,    
+                                 ModelYear = c.ModelYear
                              };
                 return result.Single();
             }
@@ -41,7 +42,8 @@ namespace DataAccess.Concrete
                                  CarId = c.Id,
                                  BrandName = b.Name,                            
                                  ColorName = clr.Name,
-                                 DailyPrice = c.DailyPrice
+                                 DailyPrice = c.DailyPrice,
+                                 ModelYear = c.ModelYear
                              };
                 return result.ToList();
             }
@@ -60,7 +62,8 @@ namespace DataAccess.Concrete
                                  CarId = c.Id,
                                  BrandName = b.Name,
                                  ColorName = clr.Name,
-                                 DailyPrice = c.DailyPrice
+                                 DailyPrice = c.DailyPrice,
+                                 ModelYear = c.ModelYear
                              };
                 return result.ToList();
             }
@@ -79,7 +82,8 @@ namespace DataAccess.Concrete
                                  CarId = c.Id,
                                  BrandName = b.Name,
                                  ColorName = clr.Name,
-                                 DailyPrice = c.DailyPrice
+                                 DailyPrice = c.DailyPrice,
+                                 ModelYear = c.ModelYear
                              };
                 return result.ToList();
             }
@@ -98,13 +102,14 @@ namespace DataAccess.Concrete
                                  CarId = c.Id,
                                  BrandName = b.Name,
                                  ColorName = clr.Name,
-                                 DailyPrice = c.DailyPrice
+                                 DailyPrice = c.DailyPrice,
+                                 ModelYear = c.ModelYear
                              };
                 return result.ToList();
             }
         }
 
-        public List<CarDetailDTO> GetCarDetailsBySearch(CarSearchDTO productSearchDTO)
+        public List<CarDetailDTO> GetCarDetailsBySearch(CarSearchDTO carSearchDTO)
         {
             using (VehicleContext context = new VehicleContext())
             {
@@ -113,13 +118,13 @@ namespace DataAccess.Concrete
                              join clr in context.Colors on c.ColorId equals clr.Id
                              select new{ c, b, clr};
           
-                if(productSearchDTO.brandId != null)
+                if(carSearchDTO.brandId != null)
                 {
-                    query = query.Where(output => output.b.Id == productSearchDTO.brandId);
+                    query = query.Where(output => output.b.Id == carSearchDTO.brandId);
                 }
-                if(productSearchDTO.colorId != null)
+                if(carSearchDTO.colorId != null)
                 {
-                    query = query.Where(output => output.clr.Id == productSearchDTO.colorId);
+                    query = query.Where(output => output.clr.Id == carSearchDTO.colorId);
                 }
 
                 var result = query.Select(output => new CarDetailDTO
@@ -127,7 +132,8 @@ namespace DataAccess.Concrete
                     CarId = output.c.Id,
                     BrandName = output.b.Name,
                     ColorName = output.clr.Name,
-                    DailyPrice = output.c.DailyPrice
+                    DailyPrice = output.c.DailyPrice,
+                    ModelYear = output.c.ModelYear
                 });
 
                 return result.ToList();

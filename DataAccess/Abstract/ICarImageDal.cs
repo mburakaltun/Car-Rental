@@ -8,5 +8,8 @@ namespace DataAccess.Abstract
 {
     public interface ICarImageDal:IEntityRepository<CarImage>
     {
+        public List<CarImage> GetByCarId(int carId);
+        public CarImage GetFirstImageByCarId(int carId);
+
     }
 }

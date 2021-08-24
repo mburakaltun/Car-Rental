@@ -5,6 +5,8 @@ using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -29,7 +31,12 @@ namespace Business.Concrete
             {
                 return new ErrorResult(result.Message);
             }
-            carImage.Date = DateTime.Now;
+            _carImageDal.Add(carImage);
+            return new SuccessResult(Messages.CarImageAdded);
+        }
+
+        public IResult AddByCarId(CarImage carImage)
+        {
             _carImageDal.Add(carImage);
             return new SuccessResult(Messages.CarImageAdded);
         }
@@ -48,18 +55,6 @@ namespace Business.Concrete
         public IDataResult<CarImage> GetById(int carImageId)
         {
             return new SuccessDataResult<CarImage>(_carImageDal.Get(b => b.Id == carImageId));
-        }
-
-        public IDataResult<List<CarImage>> GetByCarId(int carId)
-        {
-            var result = BusinessRules.Run(
-                CheckCarImageExists(carId)
-                );
-            if(!result.Success)
-            {
-                return new SuccessDataResult<List<CarImage>>(new List<CarImage>());
-            }
-            return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll(c => c.CarId == carId));
         }
 
         public IResult Update(CarImage carImage)
@@ -86,6 +81,16 @@ namespace Business.Concrete
                 return new ErrorResult(Messages.CarImageDoesNotExist);
             }
             return new SuccessResult();
+        }
+
+        public IDataResult<List<CarImage>> GetByCarId(int carId)
+        {
+            return new SuccessDataResult<List<CarImage>>(_carImageDal.GetByCarId(carId));
+        }
+
+        public IDataResult<CarImage> GetFirstImageByCarId(int carId)
+        {
+            return new SuccessDataResult<CarImage>(_carImageDal.GetFirstImageByCarId(carId));
         }
     }
 }
