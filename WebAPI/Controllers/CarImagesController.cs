@@ -1,9 +1,12 @@
 ﻿using Business.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,10 +17,12 @@ namespace WebAPI.Controllers
     public class CarImagesController : ControllerBase
     {
         ICarImageService _carImageService;
+        IWebHostEnvironment _webHostEnvironment;
 
-        public CarImagesController(ICarImageService carImageService)
+        public CarImagesController(ICarImageService carImageService, IWebHostEnvironment webHostEnvironment)
         {
             _carImageService = carImageService;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         [HttpGet("getall")]
@@ -31,20 +36,47 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("getbyid")]
-        public IActionResult GetById(int id)
+        [HttpPost("upload")]
+        public IActionResult Upload(IFormFile file, int carId)
         {
-            var result = _carImageService.GetById(id);
-            if (result.Success)
+
+            string path = _webHostEnvironment.WebRootPath + "\\Images\\" + carId + "\\";
+
+            if (!Directory.Exists(path))
             {
-                return Ok(result);
+                Directory.CreateDirectory(path);
             }
-            return BadRequest(result);
+
+            string fileExtension = System.IO.Path.GetExtension(file.FileName);
+            DateTime dateTime = DateTime.Now;
+
+            string carImagePath = dateTime.ToString("yyyy-MM-dd-HH-mm-ss") + fileExtension;
+            string absoultePath = path + carImagePath;
+
+            using (FileStream fileStream = System.IO.File.Create(absoultePath))
+            {
+                CarImage carImage = new CarImage
+                {
+                    CarImagePath = carImagePath,
+                    CarId = carId,
+                    Date = dateTime
+                };
+                var result = _carImageService.AddByCarId(carImage);
+                if (result.Success)
+                {
+                    file.CopyTo(fileStream);
+                    fileStream.Flush();
+                    return Ok(result);
+                }
+                return BadRequest(result);
+
+            }
         }
 
         [HttpPost("add")]
         public IActionResult Add(CarImage carImage)
         {
+
             var result = _carImageService.Add(carImage);
             if (result.Success)
             {
@@ -74,5 +106,28 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
+
+        [HttpGet("getbycarid")]
+        public IActionResult GetByCarId(int carId)
+        {
+            var result = _carImageService.GetByCarId(carId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getfirstimagebycarid")]
+        public IActionResult GetFirstImageByCarId(int carId)
+        {
+            var result = _carImageService.GetFirstImageByCarId(carId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
     }
 }
