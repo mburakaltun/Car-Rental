@@ -48,9 +48,7 @@ namespace WebAPI.Controllers
             }
 
             string fileExtension = System.IO.Path.GetExtension(file.FileName);
-            DateTime dateTime = DateTime.Now;
-
-            string carImagePath = dateTime.ToString("yyyy-MM-dd-HH-mm-ss") + fileExtension;
+            string carImagePath = Guid.NewGuid() + fileExtension;
             string absoultePath = path + carImagePath;
 
             using (FileStream fileStream = System.IO.File.Create(absoultePath))
@@ -59,7 +57,7 @@ namespace WebAPI.Controllers
                 {
                     CarImagePath = carImagePath,
                     CarId = carId,
-                    Date = dateTime
+                    Date = DateTime.Now
                 };
                 var result = _carImageService.AddByCarId(carImage);
                 if (result.Success)
